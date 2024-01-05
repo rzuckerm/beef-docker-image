@@ -21,7 +21,7 @@ jobs:
       - name: Log in to docker
         env:
           DOCKER_USER: rzuckerm
-          DOCKER_TOKEN: ${{ secrets.DOCKER_TOKEN }}
+          DOCKER_TOKEN: {% raw %}${{ secrets.DOCKER_TOKEN }}{% endraw %}
         run: echo "${DOCKER_TOKEN}" | docker login -u "${DOCKER_USER}" --password-stdin
 
       - name: Write release version
@@ -36,11 +36,11 @@ jobs:
           echo "Tag (without v) is ${VERSION}"
           echo "Docker tag suffix is ${DOCKER_TAG_SUFFIX}"
 
-      - name: Build regular images
+      - name: Build images
         run: make build
 
-      - name: Test regular images
+      - name: Test images
         run: make test
 
       - name: Publish images
-        run: make publishx
+        run: make publish
