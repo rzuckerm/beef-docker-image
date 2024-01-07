@@ -21,7 +21,7 @@ jobs:
       - name: Log in to docker
         env:
           DOCKER_USER: rzuckerm
-          DOCKER_TOKEN: {% raw %}${{ secrets.DOCKER_TOKEN }}{% endraw %}
+          DOCKER_TOKEN: ${{ secrets.DOCKER_TOKEN }}
         run: echo "${DOCKER_TOKEN}" | docker login -u "${DOCKER_USER}" --password-stdin
 
       - name: Write release version
