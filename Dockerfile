@@ -11,7 +11,9 @@ RUN apt-get update && \
     mv /tmp/beef_llvm_build.sh extern/llvm_build.sh && \
     if ! bin/build.sh; then bin/build.sh; fi && \
     rm -rf .git* bin BeefBoot BeefBuild BeefFuzz \
-        extern/llvm-project_13_0_1 extern/llvm_linux_13_0_1 extern/llvm_linux_rel_13_0_1/unittests \
+        extern/llvm-project_13_0_1 \
+        extern/llvm_linux_rel_13_0_1/examples \
+        extern/llvm_linux_rel_13_0_1/unittests \
         IDEHelper/Tests IDE/Tests && \
     find . '!' '(' \
         -name '*.a' \
@@ -23,12 +25,12 @@ RUN apt-get update && \
         -o -executable ')' \
         -a -type f \
         -exec rm -f '{}' ';' && \
-    find . -empty -type d -delete && \
+    find . -empty -type d -delete 2>/dev/null && \
     find . '(' \
         -name '*.a' \
         -o -executable \
         ')' -a -type f \
-        -exec strip --strip-debug '{}' ';' && \
+        -exec strip --strip-debug '{}' ';' 2>/dev/null && \
     cd / && \
     apt-get remove -y git cmake ninja-build python3 && \
     apt-get autoremove -y && \
