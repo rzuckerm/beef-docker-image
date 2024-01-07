@@ -18,6 +18,7 @@ fi #end if llvm-project_13_0_1 exists
 
 if [ ! -d llvm_linux_rel_13_0_1 ]; then
     mkdir llvm_linux_rel_13_0_1
+    ln -s llvm_linux_rel_13_0_1 llvm_linux_13_0_1
 fi
 
 if [ ! -d llvm_linux_rel_13_0_1/bin ]; then
