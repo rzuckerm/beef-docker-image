@@ -5,8 +5,9 @@ RUN apt-get update && \
     apt-get install -y git cmake ninja-build python3 g++ && \
     mkdir -p /opt && \
     cd /opt && \
-    git clone https://github.com/beefytech/Beef -b $(cat /tmp/BEEF_VERSION) --depth 1 && \
+    git clone https://github.com/beefytech/Beef && \
     cd Beef && \
+    git reset --hard $(cat /tmp/BEEF_COMMIT_HASH) && \
     mv /tmp/beef_build.sh bin/build.sh && \
     mv /tmp/beef_llvm_build.sh extern/llvm_build.sh && \
     if ! bin/build.sh; then bin/build.sh; fi && \
