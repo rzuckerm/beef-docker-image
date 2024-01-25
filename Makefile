@@ -1,5 +1,5 @@
 BEEF_VERSION := $(shell cat BEEF_VERSION)
-BEEF_DEPS := $(wildcard BEEF_*) $(wildard beef_*.sh)
+BEEF_DEPS := $(wildcard BEEF_*) $(wildard beef_*)
 DOCKER_TAG_PREFIX := rzuckerm/beef:$(BEEF_VERSION)
 DOCKER_TAG_SUFFIX ?= -dev
 

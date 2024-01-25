@@ -1,0 +1,47 @@
+#!/usr/bin/env python3
+import argparse
+import subprocess
+import sys
+
+
+def run_beef_compiler(parsed_args):
+    beef_compiler_args = parsed_args.beef_compiler_args
+    if beef_compiler_args and beef_compiler_args[0] == "--":
+        beef_compiler_args = beef_compiler_args[1:]
+
+    for count in range(1, parsed_args.tries + 1):
+        try:
+            subprocess.run(["BeefBuild"] + beef_compiler_args, timeout=parsed_args.timeout)
+            return 0
+        except subprocess.CalledProcessError as exc:
+            return exc.returncode
+        except subprocess.TimeoutExpired:
+            print(f"Attempt {count} - Timeout error")
+    else:
+        print("Too many attempts")
+        return 127
+
+
+def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument(
+        "--tries",
+        type=int,
+        help="Number of tries for Beef compiler if timeout (default=3)",
+        default=3,
+    )
+    parser.add_argument(
+        "--timeout",
+        type=int,
+        help="Number of seconds to wait for Beef compiler to finish (default=120)",
+        default=120,
+    )
+    parser.add_argument(
+        "beef_compiler_args", nargs=argparse.REMAINDER, help="Arguments to pass to Beef compiler"
+    )
+    parsed_args = parser.parse_args()
+    sys.exit(run_beef_compiler(parsed_args))
+
+
+if __name__ == "__main__":
+    main()

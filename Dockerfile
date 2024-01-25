@@ -1,6 +1,6 @@
 FROM ubuntu:22.04
 
-COPY BEEF_* beef_*.sh /tmp/
+COPY BEEF_* beef_*.* /tmp/
 RUN apt-get update && \
     apt-get install -y git cmake ninja-build python3 g++ && \
     mkdir -p /opt && \
@@ -10,6 +10,8 @@ RUN apt-get update && \
     git reset --hard $(cat /tmp/BEEF_COMMIT_HASH) && \
     mv /tmp/beef_build.sh bin/build.sh && \
     mv /tmp/beef_llvm_build.sh extern/llvm_build.sh && \
+    mv /tmp/beef_build_workaround /usr/local/bin && \
+    chmod +x /usr/local/bin/beef_build_workaround && \
     if ! bin/build.sh; then bin/build.sh; fi && \
     rm -rf .git* bin BeefBoot BeefBuild BeefFuzz \
         extern/llvm-project_13_0_1 \
@@ -33,7 +35,7 @@ RUN apt-get update && \
         ')' -a -type f \
         -exec strip --strip-debug '{}' ';' 2>/dev/null && \
     cd / && \
-    apt-get remove -y git cmake ninja-build python3 && \
+    apt-get remove -y git cmake ninja-build && \
     apt-get autoremove -y && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
