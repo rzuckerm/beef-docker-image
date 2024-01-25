@@ -1,6 +1,6 @@
 FROM ubuntu:22.04
 
-COPY BEEF_* beef_*.* /tmp/
+COPY BEEF_* beef_* /tmp/
 RUN apt-get update && \
     apt-get install -y git cmake ninja-build python3 g++ && \
     mkdir -p /opt && \
